@@ -1,18 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentInput: {
+        currentTemp: null,
+        currentWeight: null
+      },
+      data: [
+        { temp: 10, weight: 20 },
+        { temp: 10, weight: 20 },
+        { temp: 10, weight: 20 }
+      ]
+    };
+  }
+  handleSubmit = e => {
+    e.preventDefault();
+    this.setState({ data: [...this.state.data, this.state.currentInput] });
+  };
+  handleTempInput = e => {
+    const { currentWeight } = this.state.currentInput;
+    this.setState({
+      currentInput: { ...currentWeight, currentTemp: e.target.value }
+    });
+  };
+  handleWeightInput = e => {
+    const { currentTemp } = this.state.currentInput;
+    this.setState({
+      currentInput: { ...currentTemp, currentWeight: e.target.value }
+    });
+  };
   render() {
+    console.log(this.state.data, this.state.currentInput);
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="temp"
+            value={this.state.currentInput.currentTemp}
+            onChange={this.handleTempInput}
+          />
+          <input
+            className="weight"
+            value={this.state.currentInput.currentWeight}
+            onChange={this.handleWeightInput}
+          />
+
+          <input type="submit" />
+        </form>
       </div>
     );
   }
