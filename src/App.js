@@ -6,8 +6,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentInput: {
-        currentTemp: null,
-        currentWeight: null
+        temp: '',
+        weight: ''
       },
       data: [
         { temp: 10, weight: 20 },
@@ -18,18 +18,22 @@ class App extends Component {
   }
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ data: [...this.state.data, this.state.currentInput] });
+    this.setState({
+      data: [...this.state.data, this.state.currentInput],
+      currentInput: {
+        temp: '',
+        weight: ''
+      }
+    });
   };
   handleTempInput = e => {
-    const { currentWeight } = this.state.currentInput;
     this.setState({
-      currentInput: { ...currentWeight, currentTemp: e.target.value }
+      currentInput: { ...this.state.currentInput, temp: e.target.value }
     });
   };
   handleWeightInput = e => {
-    const { currentTemp } = this.state.currentInput;
     this.setState({
-      currentInput: { ...currentTemp, currentWeight: e.target.value }
+      currentInput: { ...this.state.currentInput, weight: e.target.value }
     });
   };
   render() {
