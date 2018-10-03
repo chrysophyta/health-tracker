@@ -26,14 +26,13 @@ class App extends Component {
       }
     });
   };
-  handleTempInput = e => {
+  handleInput = (e, key) => {
+    const newState = {
+      ...this.state.currentInput,
+      [key]: e.target.value
+    };
     this.setState({
-      currentInput: { ...this.state.currentInput, temp: e.target.value }
-    });
-  };
-  handleWeightInput = e => {
-    this.setState({
-      currentInput: { ...this.state.currentInput, weight: e.target.value }
+      currentInput: newState
     });
   };
   render() {
@@ -44,12 +43,12 @@ class App extends Component {
           <input
             className="temp"
             value={this.state.currentInput.currentTemp}
-            onChange={this.handleTempInput}
+            onChange={e => this.handleInput(e, 'temp')}
           />
           <input
             className="weight"
             value={this.state.currentInput.currentWeight}
-            onChange={this.handleWeightInput}
+            onChange={e => this.handleInput(e, 'weight')}
           />
 
           <input type="submit" />
