@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Chart from './Chart';
 
 class App extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class App extends Component {
     console.log(this.state.data, this.state.currentInput);
     return (
       <div className="App">
+        <Chart data={this.state.data} />
         <form onSubmit={this.handleSubmit}>
           <input
             className="temp"
