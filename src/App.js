@@ -10,11 +10,7 @@ class App extends Component {
         temp: '',
         weight: ''
       },
-      data: [
-        { temp: 10, weight: 20 },
-        { temp: 10, weight: 20 },
-        { temp: 10, weight: 20 }
-      ]
+      data: [{ temp: 10, weight: 20 }]
     };
   }
   handleSubmit = e => {
@@ -30,7 +26,7 @@ class App extends Component {
   handleInput = (e, key) => {
     const newState = {
       ...this.state.currentInput,
-      [key]: e.target.value
+      [key]: parseFloat(e.target.value)
     };
     this.setState({
       currentInput: newState
@@ -44,11 +40,13 @@ class App extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             className="temp"
+            type="number"
             value={this.state.currentInput.currentTemp}
             onChange={e => this.handleInput(e, 'temp')}
           />
           <input
             className="weight"
+            type="number"
             value={this.state.currentInput.currentWeight}
             onChange={e => this.handleInput(e, 'weight')}
           />

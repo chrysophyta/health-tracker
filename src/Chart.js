@@ -13,10 +13,10 @@ class Chart extends Component {
   };
 
   n = this.props.data.length;
-  xScale = d3.scaleLinear().range([0, width]); // output
+  xScale = d3.scaleLinear().range([margin.left, width - margin.right]); // output
 
   // Y scale will use the randomly generate number
-  yScale = d3.scaleLinear().range([height, 0]); // output
+  yScale = d3.scaleLinear().range([height - margin.bottom, margin.top]); // output
 
   lineGenerator = d3.line();
 
@@ -30,7 +30,7 @@ class Chart extends Component {
     this.yScale.domain([0, tempMax]);
 
     this.lineGenerator.x((d, i) => this.xScale(i));
-    this.lineGenerator.y(d => this.xScale(d.temp));
+    this.lineGenerator.y(d => this.yScale(d.temp));
     const temps = this.lineGenerator(data);
 
     this.lineGenerator.y(d => this.yScale(d.weight));
@@ -45,7 +45,7 @@ class Chart extends Component {
       <div className="Chart">
         <svg width={width} height={height}>
           <path d={this.state.temps} fill="none" stroke={'#000000'} />
-          <path d={this.state.weights} fill="none" stroke={'#000000'} />
+          <path d={this.state.weights} fill="none" stroke={'blue'} />
         </svg>
       </div>
     );
