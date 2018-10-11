@@ -25,9 +25,9 @@ class Chart extends Component {
     if (!data) return;
 
     const timeDomain = d3.extent(data, (d, i) => i);
-    const tempMax = d3.max(data, d => d.temp);
+    const graphMax = 50;
     this.xScale.domain(timeDomain);
-    this.yScale.domain([0, tempMax]);
+    this.yScale.domain([0, graphMax]);
 
     this.lineGenerator.x((d, i) => this.xScale(i));
     this.lineGenerator.y(d => this.yScale(d.temp));
