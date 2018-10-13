@@ -20,6 +20,15 @@ class Chart extends Component {
 
   lineGenerator = d3.line();
 
+  xAxis = d3
+    .axisBottom()
+    .scale(this.xScale)
+    .tickFormat(d3.timeFormat('%b'));
+  yAxis = d3
+    .axisLeft()
+    .scale(this.yScale)
+    .tickFormat(d => d.weight);
+
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
     if (!data) return;
@@ -39,6 +48,10 @@ class Chart extends Component {
 
     this.setState({ weights, temps });
   }
+  componentDidUpdate() {
+    d3.select(this.refs.xAxis).call(this.xAxis);
+    d3.select(this.refs.yAxis).call(this.yAxis);
+  }
   render() {
     console.log(this.state.temps);
     return (
@@ -46,6 +59,10 @@ class Chart extends Component {
         <svg width={width} height={height}>
           <path d={this.state.temps} fill="none" stroke={'#000000'} />
           <path d={this.state.weights} fill="none" stroke={'blue'} />
+          <g>
+            <g ref="xAxis" />
+            <g ref="yAxis" />
+          </g>
         </svg>
       </div>
     );
