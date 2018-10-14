@@ -9,51 +9,47 @@ const height = window.innerHeight - margin.top - margin.bottom; // Use the windo
 class Chart extends Component {
   state = {
     weights: null,
-    temps: null
+    temps: null,
+    // d3 helpers
+    xScale: d3.scaleTime().range([margin.left, width - margin.right]),
+    yScale: d3.scaleLinear().range([height - margin.bottom, margin.top]),
+    lineGenerator: d3.line()
   };
-
-  n = this.props.data.length;
-  xScale = d3.scaleLinear().range([margin.left, width - margin.right]); // output
-
-  // Y scale will use the randomly generate number
-  yScale = d3.scaleLinear().range([height - margin.bottom, margin.top]); // output
-
-  lineGenerator = d3.line();
 
   xAxis = d3
     .axisBottom()
-    .scale(this.xScale)
+    .scale(this.state.xScale)
     .tickFormat(d3.timeFormat('%b'));
   yAxis = d3
     .axisLeft()
-    .scale(this.yScale)
-    .tickFormat(d => d.weight);
+    .scale(this.state.yScale)
+    .tickFormat(d => `${d}℉`);
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!nextProps.data) return null;
     const { data } = nextProps;
-    if (!data) return;
+    const { xScale, yScale, lineGenerator } = prevState;
 
-    const timeDomain = d3.extent(data, (d, i) => i);
+    const timeDomain = d3.extent(data, d => d.date);
     const graphMax = 50;
-    this.xScale.domain(timeDomain);
-    this.yScale.domain([0, graphMax]);
+    xScale.domain(timeDomain);
+    yScale.domain([0, graphMax]);
 
-    this.lineGenerator.x((d, i) => this.xScale(i));
-    this.lineGenerator.y(d => this.yScale(d.temp));
-    const temps = this.lineGenerator(data);
+    lineGenerator.x(d => xScale(d.date));
+    lineGenerator.y(d => yScale(d.temp));
+    const temps = lineGenerator(data);
 
-    this.lineGenerator.y(d => this.yScale(d.weight));
-    const weights = this.lineGenerator(data);
+    lineGenerator.y(d => yScale(d.weight));
+    const weights = lineGenerator(data);
     // An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
 
-    this.setState({ weights, temps });
+    return { weights, temps };
   }
   componentDidUpdate() {
     d3.select(this.refs.xAxis).call(this.xAxis);
     d3.select(this.refs.yAxis).call(this.yAxis);
   }
   render() {
-    console.log(this.state.temps);
     return (
       <div className="Chart">
         <svg width={width} height={height}>

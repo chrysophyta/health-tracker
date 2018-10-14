@@ -11,11 +11,11 @@ class App extends Component {
         weight: ''
       },
       data: [
-        { temp: 10, weight: 20 },
-        { temp: 10, weight: 20 },
-        { temp: 10, weight: 20 },
-        { temp: 10, weight: 20 },
-        { temp: 10, weight: 20 }
+        // { temp: 10, weight: 20 },
+        // { temp: 10, weight: 20 },
+        // { temp: 10, weight: 20 },
+        // { temp: 10, weight: 20 },
+        // { temp: 10, weight: 20 }
       ]
     };
   }
