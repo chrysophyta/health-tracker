@@ -19,11 +19,15 @@ class Chart extends Component {
   xAxis = d3
     .axisBottom()
     .scale(this.state.xScale)
-    .tickFormat(d3.timeFormat('%b'));
-  yAxis = d3
+    .tickFormat(d3.timeFormat('%x'));
+  yAxisForTemp = d3
+    .axisRight()
+    .scale(this.state.yScale)
+    .tickFormat(d => `${d}℃`);
+  yAxisForWeight = d3
     .axisLeft()
     .scale(this.state.yScale)
-    .tickFormat(d => `${d}℉`);
+    .tickFormat(d => d);
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (!nextProps.data) return null;
@@ -31,7 +35,7 @@ class Chart extends Component {
     const { xScale, yScale, lineGenerator } = prevState;
 
     const timeDomain = d3.extent(data, d => d.date);
-    const graphMax = 50;
+    const graphMax = 40;
     xScale.domain(timeDomain);
     yScale.domain([0, graphMax]);
 
@@ -47,7 +51,8 @@ class Chart extends Component {
   }
   componentDidUpdate() {
     d3.select(this.refs.xAxis).call(this.xAxis);
-    d3.select(this.refs.yAxis).call(this.yAxis);
+    d3.select(this.refs.yAxisForTemp).call(this.yAxisForTemp);
+    d3.select(this.refs.yAxisForWeight).call(this.yAxisForWeight);
   }
   render() {
     return (
@@ -57,7 +62,8 @@ class Chart extends Component {
           <path d={this.state.weights} fill="none" stroke={'blue'} />
           <g>
             <g ref="xAxis" />
-            <g ref="yAxis" />
+            <g ref="yAxisForTemp" />
+            <g ref="yAxisForWeight" transform={`translate(${width},0)`} />
           </g>
         </svg>
       </div>
