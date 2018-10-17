@@ -8,7 +8,8 @@ class App extends Component {
     this.state = {
       currentInput: {
         temp: '',
-        weight: ''
+        weight: '',
+        note: ''
       },
       data: [
         // { temp: 10, weight: 20 },
@@ -25,14 +26,19 @@ class App extends Component {
       data: [...this.state.data, this.state.currentInput],
       currentInput: {
         temp: '',
-        weight: ''
+        weight: '',
+        note: ''
       }
     });
   };
   handleInput = (e, key) => {
+    console.log(e.target.type);
     const newState = {
       ...this.state.currentInput,
-      [key]: parseFloat(e.target.value),
+      [key]:
+        e.target.type === 'number'
+          ? parseFloat(e.target.value)
+          : e.target.value,
       date: new Date()
     };
     this.setState({
@@ -48,16 +54,21 @@ class App extends Component {
           <input
             className="temp"
             type="number"
-            value={this.state.currentInput.currentTemp}
+            value={this.state.currentInput.temp}
             onChange={e => this.handleInput(e, 'temp')}
           />
           <input
             className="weight"
             type="number"
-            value={this.state.currentInput.currentWeight}
+            value={this.state.currentInput.weight}
             onChange={e => this.handleInput(e, 'weight')}
           />
-
+          <input
+            className="note"
+            type="text"
+            value={this.state.currentInput.note}
+            onChange={e => this.handleInput(e, 'note')}
+          />
           <input type="submit" />
         </form>
       </div>
