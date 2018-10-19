@@ -33,13 +33,14 @@ class App extends Component {
   };
   handleInput = (e, key) => {
     console.log(e.target.type);
+    const date = new Date().valueOf();
     const newState = {
       ...this.state.currentInput,
       [key]:
         e.target.type === 'number'
           ? parseFloat(e.target.value)
           : e.target.value,
-      date: new Date()
+      date: date
     };
     this.setState({
       currentInput: newState
