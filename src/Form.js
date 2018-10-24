@@ -14,15 +14,19 @@ class Form extends Component {
   }
   handleSubmit = e => {
     e.preventDefault();
-    this.props.enterEntry(this.state.newState);
-    this.setState({
-      newState: this.state.currentInput,
-      currentInput: {
-        temp: '',
-        weight: '',
-        note: ''
+    this.setState(
+      {
+        newState: this.state.currentInput,
+        currentInput: {
+          temp: '',
+          weight: '',
+          note: ''
+        }
+      },
+      function() {
+        this.props.enterEntry(this.state.newState);
       }
-    });
+    );
   };
   handleInput = (e, key) => {
     const date = new Date().valueOf();

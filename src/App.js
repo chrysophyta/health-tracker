@@ -17,13 +17,11 @@ class App extends Component {
     };
   }
   addEntry = entry => {
-    console.log(entry);
     this.setState({
       data: [...this.state.data, entry]
     });
   };
   render() {
-    console.log(this.state);
     return (
       <div className="App">
         <Chart data={this.state.data} />
