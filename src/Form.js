@@ -29,13 +29,15 @@ class Form extends Component {
     );
   };
   handleInput = (e, key) => {
-    const date = new Date().valueOf();
+    const timestamp = new Date().valueOf();
+    const date = new Date().getDate;
     const newState = {
       ...this.state.currentInput,
       [key]:
         e.target.type === 'number'
           ? parseFloat(e.target.value)
           : e.target.value,
+      timestamp: timestamp,
       date: date
     };
     this.setState({

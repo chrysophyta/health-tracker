@@ -34,12 +34,12 @@ class Chart extends Component {
     const { data } = nextProps;
     const { xScale, yScale, lineGenerator } = prevState;
 
-    const timeDomain = d3.extent(data, d => d.date);
+    const timeDomain = d3.extent(data, d => d.timestamp);
     const graphMax = 40;
     xScale.domain(timeDomain);
     yScale.domain([0, graphMax]);
 
-    lineGenerator.x(d => xScale(d.date));
+    lineGenerator.x(d => xScale(d.timestamp));
     lineGenerator.y(d => yScale(d.temp));
     const temps = lineGenerator(data);
 
